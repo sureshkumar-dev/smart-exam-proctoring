@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <p><a href="../dashboard.html">Dashboard</a> | <a href="/auth/logout">Log out</a></p>
+    <div id="message" class="alert hidden"></div>
+    <h2>Create Exam</h2>
+    <form id="createExamForm">
+      <label for="examTitle">Exam Title</label>
+      <input type="text" id="examTitle" name="examTitle" required placeholder="e.g. Mid-term 2024">
+      <label for="durationMinutes">Duration (minutes)</label>
+      <input type="number" id="durationMinutes" name="durationMinutes" min="1" value="60" required>
+      <button type="submit">Create Exam</button>
+    </form>
+    <div id="keysBox" class="keys-box hidden">
+      <h3>Generated Keys (share these)</h3>
+      <p><strong>Student Exam Key:</strong> <span id="displayStudentKey"></span></p>
+      <p><strong>Proctor Key:</strong> <span id="displayProctorKey"></span></p>
+      <p><strong>Admin Key:</strong> <span id="displayAdminKey"></span></p>
+      <p><a href="#" id="addQuestionsLink">Add questions to this exam</a></p>
+    </div>
+    <h2>All Exams</h2>
+    <table id="examsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Duration (min)</th>
+          <th>Student Key</th>
+          <th>Proctor Key</th>
+          <th>Admin Key</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="examsBody">
+      </tbody>
+    </table>
+    <h2>Exam Reports</h2>
+    <div id="reportSection" class="report-section hidden">
+      <h3 id="reportExamTitle">Report</h3>
+      <table id="reportSessionsTable">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>User Email</th>
+            <th>Status</th>
+            <th>Malpractice Score</th>
+            <th>Started</th>
+            <th>Ended</th>
+          </tr>
+        </thead>
+        <tbody id="reportSessionsBody">
+        </tbody>
+      </table>
+      <div id="violationsDetail"></div>
+      <p>
+        <button type="button" id="exportJsonBtn" class="btn">Export JSON</button>
+        <button type="button" id="exportCsvBtn" class="btn secondary">Export CSV</button>
+      </p>
+    </div>
+  </div>
+  <div id="questionsModal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;">
+    <div class="container" style="max-width:600px;max-height:90vh;overflow:auto;">
+      <h2>Add Questions</h2>
+      <p id="questionsExamTitle"></p>
+      <form id="addQuestionForm">
+        <input type="hidden" id="questionsExamId">
+        <label for="qType">Type</label>
+        <select id="qType">
+          <option value="mcq">MCQ</option>
+          <option value="text">Text</option>
+        </select>
+        <label for="qText">Question text</label>
+        <input type="text" id="qText" required placeholder="Enter question">
+        <div id="mcqOptionsContainer">
+          <label>Options (enter each option in a separate field)</label>
+          <div id="mcqOptionFields"></div>
+          <button type="button" id="addOptionBtn" class="btn secondary">Add option</button>
+          <label for="qCorrectMcq">Correct answer</label>
+          <select id="qCorrectMcq">
+            <option value="">Select correct answer</option>
+          </select>
+        </div>
+        <div id="textCorrectContainer" class="hidden">
+          <label for="qCorrectText">Correct answer (optional, for text type)</label>
+          <input type="text" id="qCorrectText" placeholder="Optional">
+        </div>
+        <button type="submit">Add Question</button>
+      </form>
+      <div id="questionsList"></div>
+      <button type="button" id="closeQuestionsModal" class="btn secondary">Close</button>
+    </div>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

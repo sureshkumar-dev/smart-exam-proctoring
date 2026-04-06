@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="container" id="examContainer">
+    <h1 id="examTitle">Exam</h1>
+    <p>Time remaining: <span id="timeRemaining" class="timer">--</span> | Malpractice score: <span id="malpracticeScore" class="malpractice-score">0</span> (Critical at 100)</p>
+    <div id="studentWarning" class="alert warning hidden"></div>
+    <div class="video-container">
+      <video id="localVideo" autoplay playsinline muted></video>
+      <canvas id="faceCanvas" style="display:none;"></canvas>
+    </div>
+    <p id="permissionStatus"></p>
+    <div id="questionsContainer"></div>
+    <p><button type="button" id="submitExamBtn" class="btn">Submit Exam</button></p>
+  </div>
+  <div class="container hidden" id="terminatedScreen">
+    <h1>Exam Terminated</h1>
+    <p id="terminatedReason"></p>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="exam.js"></script>
+</body>
+</html>

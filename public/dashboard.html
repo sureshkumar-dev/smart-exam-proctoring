@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+    <div id="loading">Loading...</div>
+    <div id="content" class="hidden">
+      <p>Logged in as <strong id="userEmail"></strong> (<span id="userRole"></span>).</p>
+      <div id="adminLink" class="hidden">
+        <a href="admin/" class="btn">Go to Admin Dashboard</a>
+      </div>
+      <div id="studentLink" class="hidden">
+        <a href="student/" class="btn">Go to Student Dashboard</a>
+      </div>
+      <div id="proctorLink" class="hidden">
+        <a href="proctor/" class="btn">Go to Proctor Dashboard</a>
+      </div>
+      <p style="margin-top:20px;"><a href="index.html">Home</a> | <a href="/auth/logout">Log out</a></p>
+    </div>
+    <div id="unauth" class="hidden">
+      <p>You must be logged in to view the dashboard.</p>
+      <a href="login.html" class="btn">Log in</a>
+    </div>
+  </div>
+  <script>
+    fetch('/api/me', { credentials: 'include' })
+      .then(function (r) {
+        if (r.ok) return r.json();
+        throw new Error('Not authenticated');
+      })
+      .then(function (data) {
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('content').classList.remove('hidden');
+        document.getElementById('userEmail').textContent = data.user.email;
+        document.getElementById('userRole').textContent = data.user.role;
+        var role = data.user.role;
+        if (role === 'admin') document.getElementById('adminLink').classList.remove('hidden');
+        if (role === 'student') document.getElementById('studentLink').classList.remove('hidden');
+        if (role === 'proctor') document.getElementById('proctorLink').classList.remove('hidden');
+        if (role === 'admin') window.location.href = 'admin/';
+        else if (role === 'student') window.location.href = 'student/';
+        else if (role === 'proctor') window.location.href = 'proctor/';
+      })
+      .catch(function () {
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('unauth').classList.remove('hidden');
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Student Dashboard</h1>
+    <p><a href="../dashboard.html">Dashboard</a> | <a href="/auth/logout">Log out</a></p>
+    <div id="message" class="alert hidden"></div>
+    <h2>Join Exam</h2>
+    <p>Enter the Student Exam Key provided by your instructor.</p>
+    <form id="joinForm">
+      <label for="studentKey">Student Exam Key</label>
+      <input type="text" id="studentKey" name="studentKey" placeholder="e.g. S-1234" required>
+      <button type="submit">Join Exam</button>
+    </form>
+    <div id="joined" class="hidden">
+      <p>You have joined the exam. Proctoring will start when you begin.</p>
+      <a href="#" id="startExamLink" class="btn">Start Exam</a>
+    </div>
+  </div>
+  <script src="student.js"></script>
+</body>
+</html>

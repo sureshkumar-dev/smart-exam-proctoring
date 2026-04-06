@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proctor Dashboard - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Proctor Dashboard</h1>
+    <p><a href="../dashboard.html">Dashboard</a> | <a href="/auth/logout">Log out</a></p>
+    <div id="keyScreen">
+      <h2>Enter Proctor Key</h2>
+      <p>Enter the Proctor Key provided by the exam admin to monitor an exam.</p>
+      <div id="message" class="alert hidden"></div>
+      <form id="keyForm">
+        <label for="proctorKey">Proctor Key</label>
+        <input type="text" id="proctorKey" name="proctorKey" placeholder="e.g. P-1234" required>
+        <button type="submit">Continue</button>
+      </form>
+    </div>
+    <div id="dashboardScreen" class="hidden">
+      <p id="examInfo">Exam: <span id="examName">--</span> <button type="button" id="refreshBtn" class="btn secondary">Refresh</button></p>
+      <h2>Active Students</h2>
+      <table id="studentsTable">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>User Email</th>
+            <th>Score</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="studentsBody">
+        </tbody>
+      </table>
+      <h2>Real-time Alerts</h2>
+      <div id="alertsContainer"></div>
+      <h2>Evidence (Screenshots)</h2>
+      <div id="evidenceContainer"></div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="proctor.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sign up</h1>
+    <p>Create an account with email/password and choose your role.</p>
+    <div id="message" class="alert hidden"></div>
+    <form id="signupForm">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com">
+      <label for="displayName">Full Name</label>
+      <input type="text" id="displayName" name="displayName" placeholder="John Doe">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required minlength="6">
+      <label for="role">Role</label>
+      <select id="role" name="role" required>
+        <option value="">Select role</option>
+        <option value="admin">Admin</option>
+        <option value="student">Student</option>
+        <option value="proctor">Proctor</option>
+      </select>
+      <button type="submit">Sign up</button>
+    </form>
+    <p>Or</p>
+    <a href="/auth/google" class="google-btn">Continue with Google</a>
+    <p style="margin-top:20px;"><a href="index.html">Back to home</a> | <a href="login.html">Log in</a></p>
+  </div>
+  <script>
+    var selected = sessionStorage.getItem('selectedRole');
+    if (selected) {
+      var roleEl = document.getElementById('role');
+      if (roleEl) roleEl.value = selected;
+    }
+    document.getElementById('signupForm').onsubmit = function (e) {
+      e.preventDefault();
+      var email = document.getElementById('email').value.trim();
+      var displayName = document.getElementById('displayName').value.trim();
+      var password = document.getElementById('password').value;
+      var role = document.getElementById('role').value;
+      var msg = document.getElementById('message');
+      msg.classList.add('hidden');
+      if (!role) {
+        msg.textContent = 'Please select a role.';
+        msg.className = 'alert error';
+        msg.classList.remove('hidden');
+        return;
+      }
+      fetch('/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ 
+          email: email, 
+          displayName: displayName,
+          password: password, 
+          role: role 
+        })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) {
+            msg.textContent = data.error;
+            msg.className = 'alert error';
+            msg.classList.remove('hidden');
+            return;
+          }
+          window.location.href = 'dashboard.html';
+        })
+        .catch(function () {
+          msg.textContent = 'Network error. Try again.';
+          msg.className = 'alert error';
+          msg.classList.remove('hidden');
+        });
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Exam Proctoring - Landing</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI-assisted Online Exam Proctoring System</h1>
+    <p>Select your role to continue. You must be logged in to access the dashboard.</p>
+    <div id="loggedOut">
+      <h2>Select Role</h2>
+      <div class="role-cards">
+        <div class="role-card" data-role="admin">
+          <h3>Admin</h3>
+          <p>Create exams, manage questions, view reports, export data.</p>
+        </div>
+        <div class="role-card" data-role="student">
+          <h3>Student</h3>
+          <p>Join exam with key, attempt questions, proctored session.</p>
+        </div>
+        <div class="role-card" data-role="proctor">
+          <h3>Proctor</h3>
+          <p>Monitor live students, receive alerts, view evidence.</p>
+        </div>
+      </div>
+      <p>After selecting a role, sign up or log in with email/password or Google.</p>
+      <div class="nav-links">
+        <a href="login.html">Log in</a>
+        <a href="signup.html">Sign up</a>
+      </div>
+    </div>
+    <div id="loggedIn" class="hidden">
+      <p>You are logged in as <strong id="userEmail"></strong> (<span id="userRole"></span>).</p>
+      <a href="dashboard.html" class="btn">Go to Dashboard</a>
+      <form action="/auth/logout" method="get" style="display:inline; margin-left:10px;">
+        <button type="submit" class="btn secondary">Log out</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    fetch('/api/me', { credentials: 'include' })
+      .then(function (r) {
+        if (r.ok) return r.json();
+        throw new Error('Not logged in');
+      })
+      .then(function (data) {
+        if (data.user) {
+          document.getElementById('loggedOut').classList.add('hidden');
+          document.getElementById('loggedIn').classList.remove('hidden');
+          document.getElementById('userEmail').textContent = data.user.email;
+          document.getElementById('userRole').textContent = data.user.role;
+        }
+      })
+      .catch(function () {
+        document.getElementById('loggedIn').classList.add('hidden');
+      });
+    document.querySelectorAll('.role-card').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var role = this.getAttribute('data-role');
+        document.querySelectorAll('.role-card').forEach(function (c) { c.classList.remove('selected'); });
+        this.classList.add('selected');
+        sessionStorage.setItem('selectedRole', role);
+      });
+    });
+  </script>
+</body>
+</html>

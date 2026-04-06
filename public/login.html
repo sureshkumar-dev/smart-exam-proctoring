@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in - AI Exam Proctoring</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Log in</h1>
+    <div id="message" class="alert hidden"></div>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Log in</button>
+    </form>
+    <p>Or</p>
+    <a href="/auth/google" class="google-btn">Continue with Google</a>
+    <p style="margin-top:20px;"><a href="index.html">Back to home</a> | <a href="signup.html">Sign up</a></p>
+  </div>
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('error') === 'google') {
+      document.getElementById('message').textContent = 'Google sign-in failed. Try again or use email/password.';
+      document.getElementById('message').className = 'alert error';
+      document.getElementById('message').classList.remove('hidden');
+    }
+    document.getElementById('loginForm').onsubmit = function (e) {
+      e.preventDefault();
+      var email = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+      var msg = document.getElementById('message');
+      msg.classList.add('hidden');
+      fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: email, password: password })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) {
+            msg.textContent = data.error;
+            msg.className = 'alert error';
+            msg.classList.remove('hidden');
+            return;
+          }
+          window.location.href = 'dashboard.html';
+        })
+        .catch(function () {
+          msg.textContent = 'Network error. Try again.';
+          msg.className = 'alert error';
+          msg.classList.remove('hidden');
+        });
+    };
+  </script>
+</body>
+</html>
