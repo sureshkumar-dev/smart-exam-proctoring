@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "AI-assisted Online Exam Proctoring - Production app with Manual + Google OAuth",
   "main": "server.js",
+  "engines": {
+  "node": "20.x"
+},
   "scripts": {
     "start": "node server.js"
   },
