@@ -1,4 +1,4 @@
-# AI-assisted Online Exam Proctoring System
+# Real Time Online Exam Proctoring And Malpractice Detection System 
 
 Production-style web application for online exam proctoring with manual auth and Google OAuth. No frontend frameworks (HTML, CSS, Vanilla JavaScript). Backend: Node.js, Express, SQLite, Socket.IO.
 

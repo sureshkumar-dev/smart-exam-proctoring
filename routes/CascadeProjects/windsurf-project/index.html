@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>♔ Chess Game ♚</h1>
+            <div class="game-info">
+                <div class="turn-indicator">
+                    <span id="current-turn">White's Turn</span>
+                </div>
+                <div class="game-status" id="game-status">Game in progress</div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="game-container">
+                <div class="captured-pieces">
+                    <div class="captured-by-white">
+                        <h3>Captured by White</h3>
+                        <div id="white-captured"></div>
+                    </div>
+                </div>
+                
+                <div class="board-container">
+                    <div id="chess-board"></div>
+                </div>
+                
+                <div class="captured-pieces">
+                    <div class="captured-by-black">
+                        <h3>Captured by Black</h3>
+                        <div id="black-captured"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="new-game-btn" class="btn">New Game</button>
+                <button id="undo-btn" class="btn">Undo Move</button>
+                <button id="reset-btn" class="btn">Reset Game</button>
+            </div>
+            
+            <div class="move-history">
+                <h3>Move History</h3>
+                <div id="move-list"></div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
